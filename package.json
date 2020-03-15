@@ -7,8 +7,8 @@
   "main": "dist/index.js",
   "engines": {
     "node": ">=8.15.0",
-    "npm": ">=6.1.0",
-    "yarn": ">=1.6.0"
+    "npm": ">=6.4.0",
+    "yarn": ">=1.19.0"
   },
   "keywords": [
     "babel",
@@ -23,8 +23,8 @@
     "url": "https://github.com/keplergl/kepler.gl.git"
   },
   "scripts": {
-    "install:example": "cd examples/demo-app && yarn --ignore-engines",
-    "install:web": "yarn install:example && cd website && yarn --ignore-engines",
+    "install:example": "cd examples/demo-app && yarn",
+    "install:web": "yarn install:example && cd website && yarn",
     "install-and-start": "node ./scripts/install-and-start",
     "fast-test": "npm run test-node && npm run test-browser",
     "test-browser": "NODE_ENV=test babel-tape-runner -r ./test/setup-browser-env.js ./test/browser.js | tap-spec",

@@ -25,7 +25,7 @@ const folder = process.argv[2];
 const script = process.argv[3];
 
 const cmd = !existsSync(`${folder}/node_modules`)
-  ? `yarn --ignore-engines && npm run ${script}`
+  ? `yarn && npm run ${script}`
   : `npm run ${script}`;
 
 execSync(cmd, {
