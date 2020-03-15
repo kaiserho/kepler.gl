@@ -19,35 +19,46 @@
 // THE SOFTWARE.
 
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {StyledPanelDropdown} from 'components/common/styled-components';
-import listensToClickOutside from 'react-onclickoutside';
+import styled from 'styled-components';
 
-class ClickOutsideCloseDropdown extends Component {
-  static propTypes = {
-    onClose: PropTypes.func,
-    show: PropTypes.bool,
-    type: PropTypes.string
-  };
+const Style = styled.button`
+  color: ${props => props.theme.optionButtonColor};
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  outline: none;
+  transition: opacity 150ms ease-in;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  padding: 0;
 
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+class Button extends Component {
   static defaultProps = {
-    show: true,
-    type: 'dark'
+    onClick: f => f
   };
 
-  handleClickOutside = e => {
-    if (typeof this.props.onClose === 'function' && this.props.show) {
-      this.props.onClose(e);
+  onClick = () => {
+    const {onClick, disabled} = this.props;
+    if (disabled) {
+      return;
     }
+
+    onClick();
   };
 
   render() {
-    return (
-      <StyledPanelDropdown type={this.props.type} className={this.props.className}>
-        {this.props.children}
-      </StyledPanelDropdown>
-    );
+    const {text, children, ...props} = this.props;
+    const p = {...props, onClick: this.onClick};
+
+    return <Style {...p}>{text || children}</Style>;
   }
 }
 
-export default listensToClickOutside(ClickOutsideCloseDropdown);
+export default Button;

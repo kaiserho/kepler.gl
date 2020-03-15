@@ -20,8 +20,11 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import DataGridFactory from 'components/common/datagrid';
+// import DataGridFactory from 'components/common/datagrid';
 import DatasetLabel from 'components/common/dataset-label';
+import DataTableFactory from 'components/common/data-table';
+import {createSelector} from 'reselect';
+import {renderedSize} from 'components/common/data-table/cell-size';
 
 const dgSettings = {
   sidePadding: '38px',
@@ -71,30 +74,84 @@ export const DatasetTabs = React.memo(({activeDataset, datasets, showDatasetTabl
 
 DatasetTabs.displayName = 'DatasetTabs';
 
-DataTableModalFactory.deps = [DataGridFactory];
+DataTableModalFactory.deps = [DataTableFactory];
 
-function DataTableModalFactory(DataGrid) {
-  const DataTableModal = React.memo(({datasets, dataId, height, showDatasetTable, width}) => {
-    if (!datasets || !dataId) {
-      return null;
-    }
+const TableContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 70vh;
+  max-height: 70vh;
+`;
 
-    const activeDataset = datasets[dataId];
-    const rows = activeDataset.allData;
-
-    return (
-      <StyledModal className="dataset-modal">
-        <DatasetTabs
-          activeDataset={activeDataset}
-          datasets={datasets}
-          showDatasetTable={showDatasetTable}
-        />
-        <DataGrid width={width} height={height} rows={rows} columns={activeDataset.fields} />
-      </StyledModal>
+function DataTableModalFactory(DataTable) {
+  class DataTableModal extends React.Component {
+    fields = props => (props.datasets[props.dataId] || {}).fields;
+    rows = props => (props.datasets[props.dataId] || {}).allData;
+    columns = createSelector(this.fields, fields => fields.map(f => f.name));
+    dedupedColMeta = createSelector(this.fields, fields =>
+      fields.reduce(
+        (acc, {name, type}) => ({
+          ...acc,
+          [name]: type
+        }),
+        {}
+      )
     );
-  });
+    cellSizeCache = createSelector(this.columns, this.rows, (columns, rows) =>
+      columns.reduce(
+        (acc, val, colIdx) => ({
+          ...acc,
+          [val]: renderedSize({
+            text: {
+              rows,
+              columns
+            },
+            colIdx,
+            optionsButton: 33
+          })
+        }),
+        {}
+      )
+    );
 
-  DataTableModal.displayName = 'DataTableModal';
+    render() {
+      const {datasets, dataId, showDatasetTable} = this.props;
+      if (!datasets || !dataId) {
+        return null;
+      }
+
+      const activeDataset = datasets[dataId];
+      const rows = this.rows(this.props);
+      const columns = this.columns(this.props);
+      const dedupedColMeta = this.dedupedColMeta(this.props);
+      const cellSizeCache = this.cellSizeCache(this.props);
+
+      return (
+        <StyledModal className="dataset-modal" id="dataset-modal">
+          <TableContainer>
+            <DatasetTabs
+              activeDataset={activeDataset}
+              datasets={datasets}
+              showDatasetTable={showDatasetTable}
+            />
+            <DataTable
+              rows={rows}
+              rowCount={rows.length}
+              columns={columns}
+              dedupedColumns={columns}
+              dedupedColMeta={dedupedColMeta}
+              pinnedColumns={columns.slice(0, 3)}
+              cellSizeCache={cellSizeCache}
+              unpinnedColumns={columns.slice(3, columns.length)}
+              hoverHighlight
+            />
+          </TableContainer>
+        </StyledModal>
+      );
+    }
+  }
+
   return DataTableModal;
 }
 

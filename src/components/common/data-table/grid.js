@@ -18,36 +18,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {StyledPanelDropdown} from 'components/common/styled-components';
-import listensToClickOutside from 'react-onclickoutside';
+import React, {PureComponent} from 'react';
+import {Grid} from 'react-virtualized';
+import isEqual from 'lodash.isequal';
 
-class ClickOutsideCloseDropdown extends Component {
-  static propTypes = {
-    onClose: PropTypes.func,
-    show: PropTypes.bool,
-    type: PropTypes.string
-  };
-
-  static defaultProps = {
-    show: true,
-    type: 'dark'
-  };
-
-  handleClickOutside = e => {
-    if (typeof this.props.onClose === 'function' && this.props.show) {
-      this.props.onClose(e);
+export default class GridHack extends PureComponent {
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    /*
+     * This hack exists because in react-virtualized the
+     * _columnWidthGetter is only called in the constructor
+     * even though it is reassigned with new props resulting in
+     * a new width for cells not being calculated so we must
+     * force trigger a resize.
+     *
+     * https://github.com/bvaughn/react-virtualized/blob/master/source/Grid/Grid.js#L322
+     *
+     */
+    if (!isEqual(nextProps.cellSizeCache, this.props.cellSizeCache)) {
+      this.grid.recomputeGridSize();
     }
-  };
+  }
 
   render() {
+    const {setGridRef, ...rest} = this.props;
     return (
-      <StyledPanelDropdown type={this.props.type} className={this.props.className}>
-        {this.props.children}
-      </StyledPanelDropdown>
+      <Grid
+        ref={x => {
+          if (setGridRef) setGridRef(x);
+          this.grid = x;
+        }}
+        key="grid-hack"
+        {...rest}
+      />
     );
   }
 }
-
-export default listensToClickOutside(ClickOutsideCloseDropdown);

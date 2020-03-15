@@ -20,34 +20,38 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {StyledPanelDropdown} from 'components/common/styled-components';
-import listensToClickOutside from 'react-onclickoutside';
+import Base from './base';
 
-class ClickOutsideCloseDropdown extends Component {
+export default class Cancel extends Component {
   static propTypes = {
-    onClose: PropTypes.func,
-    show: PropTypes.bool,
-    type: PropTypes.string
+    /** Set the height of the icon, ex. '16px' */
+    height: PropTypes.string
   };
 
   static defaultProps = {
-    show: true,
-    type: 'dark'
-  };
-
-  handleClickOutside = e => {
-    if (typeof this.props.onClose === 'function' && this.props.show) {
-      this.props.onClose(e);
-    }
+    height: '16px',
+    predefinedClassName: 'data-ex-icons-cancel'
   };
 
   render() {
     return (
-      <StyledPanelDropdown type={this.props.type} className={this.props.className}>
-        {this.props.children}
-      </StyledPanelDropdown>
+      <Base {...this.props}>
+        <path d="M16.7240288,20.6999691 C14.3839567,23.8581781 13,27.7674688 13,32 C13,42.4934102 21.5065898,51 32,51 C36.2325312,51 40.1418219,49.6160433 43.3000309,47.2759712 L16.7240288,20.6999691 Z M20.2014265,17.106299 L46.893701,43.7985735 C49.4645783,40.5576433 51,36.4581301 51,32 C51,21.5065898 42.4934102,13 32,13 C27.5418699,13 23.4423567,14.5354217 20.2014265,17.106299 Z M32,56 C18.745166,56 8,45.254834 8,32 C8,18.745166 18.745166,8 32,8 C45.254834,8 56,18.745166 56,32 C56,45.254834 45.254834,56 32,56 Z" />
+      </Base>
     );
   }
 }
 
-export default listensToClickOutside(ClickOutsideCloseDropdown);
+// return GenIcon({
+//   tag: 'svg',
+//   attr: {version: '1.2', baseProfile: 'tiny', viewBox: '0 0 24 24'},
+//   child: [
+//     {
+//       tag: 'path',
+//       attr: {
+//         d:
+//           'M12 4c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8zm-5 8c0-.832.224-1.604.584-2.295l6.711 6.711c-.691.36-1.463.584-2.295.584-2.757 0-5-2.243-5-5zm9.416 2.295l-6.711-6.711c.691-.36 1.463-.584 2.295-.584 2.757 0 5 2.243 5 5 0 .832-.224 1.604-.584 2.295z'
+//       }
+//     }
+//   ]
+// })(props);

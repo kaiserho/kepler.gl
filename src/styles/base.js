@@ -188,7 +188,7 @@ export const panelHeaderIconActive = '#A0A7B4';
 export const panelHeaderHeight = 48;
 export const panelBoxShadow = '0 6px 12px 0 rgba(0,0,0,0.16)';
 export const panelBorderRadius = '2px';
-export const panelBackgroundLT = '#f8f8f9';
+export const panelBackgroundLT = '#F8F8F9';
 
 export const panelBorderColor = '#3A414C';
 export const panelBorder = `1px solid ${borderColor}`;
@@ -220,6 +220,7 @@ export const modalContentZ = 10002;
 export const modalFooterZ = 10001;
 export const modalTitleZ = 10003;
 export const modalButtonZ = 10005;
+export const modalDropdownBackground = '#FFFFFF';
 
 // Modal Dialog (Dark)
 export const modalDialogBgd = '#3A414C';
@@ -258,16 +259,20 @@ export const notificationPanelWidth = 240;
 export const notificationPanelItemWidth = notificationPanelWidth - 60;
 export const notificationPanelItemHeight = 60;
 
-// Datagrid
-const columnWidth = 200;
-const cellHeaderHeight = 72;
-const cellHeight = 24;
-const cellPaddingSide = 18;
-const extendCellHeight = 2 * cellHeight;
-const extendColumnWidth = 2 * columnWidth;
-const gridDefaultWidth = 800;
-const gridDefaultHeight = 600;
+// Data Table
+const headerRowHeight = 60;
+const rowHeight = 32;
+const cellPaddingSide = 10;
+const cellFontSize = 10;
 const gridPaddingSide = 24;
+const headerCellBackground = '#FFFFFF';
+const headerCellBorderColor = '#E0E0E0';
+const headerCellIconColor = '#666666';
+const cellBorderColor = '#E0E0E0';
+const evenRowBackground = '#FFFFFF';
+const oddRowBackground = '#F7F7F7';
+const optionButtonColor = '#6A7485';
+const pinnedGridBorderColor = '#E0E0E0';
 
 // Floating Time display
 const timeDisplayBorderRadius = 32;
@@ -972,6 +977,7 @@ export const theme = {
   modalFooterZ,
   modalTitleZ,
   modalButtonZ,
+  modalDropdownBackground,
 
   // Side Panel
   sidePanelBg,
@@ -1048,17 +1054,20 @@ export const theme = {
   notificationPanelItemWidth,
   notificationPanelItemHeight,
 
-  // datagrid
-  columnWidth,
-  extendColumnWidth,
-  cellHeaderHeight,
-  cellHeight,
+  // Data Table
+  headerRowHeight,
+  rowHeight,
   cellPaddingSide,
-  extendCellHeight,
-  gridDefaultWidth,
-  gridDefaultHeight,
+  cellFontSize,
   gridPaddingSide,
-
+  optionButtonColor,
+  headerCellBackground,
+  headerCellBorderColor,
+  headerCellIconColor,
+  cellBorderColor,
+  evenRowBackground,
+  oddRowBackground,
+  pinnedGridBorderColor,
   // time display
   timeDisplayBorderRadius,
   timeDisplayHeight,

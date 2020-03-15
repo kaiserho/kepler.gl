@@ -63,6 +63,8 @@ import {EXPORT_MAP_FORMATS} from '../constants/default-settings';
 const DataTableModalStyle = css`
   top: 80px;
   padding: 32px 0 0 0;
+  width: 90vw;
+  max-width: 90vw;
 
   ${media.portable`
     padding: 0;

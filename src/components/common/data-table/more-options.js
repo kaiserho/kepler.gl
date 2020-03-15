@@ -19,35 +19,52 @@
 // THE SOFTWARE.
 
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {StyledPanelDropdown} from 'components/common/styled-components';
-import listensToClickOutside from 'react-onclickoutside';
+import styled from 'styled-components';
 
-class ClickOutsideCloseDropdown extends Component {
-  static propTypes = {
-    onClose: PropTypes.func,
-    show: PropTypes.bool,
-    type: PropTypes.string
-  };
+import {qbColors} from './theme';
+import {hexToRgb} from 'utils/color-utils';
 
-  static defaultProps = {
-    show: true,
-    type: 'dark'
-  };
+const Container = styled.div`
+  z-index: 5;
+  border-radius: 3px;
+  background-color: ${props => qbColors.white};
+  position: absolute;
+  box-shadow: 0 0 2px 1px rgba(${p => `${hexToRgb(qbColors.black)}`}, 0.2);
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  justify-content: center;
+  padding: 5px 0;
 
-  handleClickOutside = e => {
-    if (typeof this.props.onClose === 'function' && this.props.show) {
-      this.props.onClose(e);
+  > div {
+    color: ${props => qbColors.baseGrey2};
+    line-height: 16px;
+    font-weight: 400;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      color: ${props => qbColors.baseBlue2};
+      background-color: ${props => qbColors.baseBlue4};
     }
-  };
+  }
 
+  .delete {
+    color: ${props => qbColors.orange};
+  }
+`;
+export default class MoreOptions extends Component {
   render() {
+    const {className, children, height, width} = this.props;
+
     return (
-      <StyledPanelDropdown type={this.props.type} className={this.props.className}>
-        {this.props.children}
-      </StyledPanelDropdown>
+      <Container className={className} height={height} width={width}>
+        {children && children}
+      </Container>
     );
   }
 }
-
-export default listensToClickOutside(ClickOutsideCloseDropdown);

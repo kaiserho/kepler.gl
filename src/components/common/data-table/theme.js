@@ -18,36 +18,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {StyledPanelDropdown} from 'components/common/styled-components';
-import listensToClickOutside from 'react-onclickoutside';
-
-class ClickOutsideCloseDropdown extends Component {
-  static propTypes = {
-    onClose: PropTypes.func,
-    show: PropTypes.bool,
-    type: PropTypes.string
-  };
-
-  static defaultProps = {
-    show: true,
-    type: 'dark'
-  };
-
-  handleClickOutside = e => {
-    if (typeof this.props.onClose === 'function' && this.props.show) {
-      this.props.onClose(e);
-    }
-  };
-
-  render() {
-    return (
-      <StyledPanelDropdown type={this.props.type} className={this.props.className}>
-        {this.props.children}
-      </StyledPanelDropdown>
-    );
-  }
-}
-
-export default listensToClickOutside(ClickOutsideCloseDropdown);
+export const qbColors = {
+  baseBlue1: '#1B6DE0',
+  baseBlue2: '#3C8BF9',
+  baseBlue3: '#8DB6EF',
+  baseBlue4: '#D1E2F9',
+  baseGreen1: '#07A35A',
+  baseGrey1: '#333333',
+  baseGrey2: '#666666',
+  baseGrey3: '#999999',
+  baseGrey4: '#B3B3B3',
+  baseGrey5: '#CCCCCC',
+  baseGrey6: '#F0F0F0',
+  baseGrey7: '#F7F7F7',
+  qbGrey1: '#D5D5D5',
+  qbGrey2: '#E0E0E0',
+  qbGrey3: '#E8F0FC',
+  white: '#FFFFFF',
+  black: '#000000'
+};
